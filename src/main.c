@@ -30,7 +30,7 @@ void cs_toupper(char *str)
 
 int main()
 {
-	char test[] = "Teste\0";
+	char test[] = "Teste";
 
 	encrypt(test, 1);
 
