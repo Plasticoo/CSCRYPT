@@ -1,11 +1,11 @@
 #include <stdio.h>
 
-void encrypt()
+void encrypt(char *str, int shift)
 {
 
 }
 
-void decrypt()
+void decrypt(char *str, int shift)
 {
 
 }
@@ -20,11 +20,7 @@ void cs_toupper(char *str)
 
 int main()
 {
-	char test[] = "Test";
-
-	cs_toupper(test);
-
-	printf("%s\n", test);
+	
 
 	return 0;
 }
