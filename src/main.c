@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <inttypes.h>
 #include <string.h>
+#include <stdlib.h>
+#include <getopt.h>
 
 void cs_toupper(char *str, size_t len)
 {
@@ -48,15 +50,32 @@ void decrypt(char *str, int shift, size_t len)
 	}
 }
 
-int main()
+void print_usage()
 {
-	char test[] = "Teste";
 
-	encrypt(test, 24, strlen(test));
-	printf("%s\n", test);
+}
 
-	decrypt(test, 24, strlen(test));
-	printf("%s\n", test);
+int main(int argc, char **argv)
+{
+	int copts, n_shift;
+	char *str;
+
+	while((copts = getopt(argc, argv, "m:n:s:")) != -1)
+	{
+		switch(copts)
+		{
+		case 'm':
+			break;
+		case 'n':
+			n_shift = atoi(optarg);
+			break;
+		case 's':
+			str = optarg;
+			break;
+		default:
+			exit(EXIT_FAILURE);
+		}
+	}
 
 	return 0;
 }
