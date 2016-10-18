@@ -35,6 +35,8 @@ void encrypt(char *str, int shift, size_t len)
 
 void decrypt(char *str, int shift, size_t len)
 {
+	cs_toupper(str, len);
+
 	uint8_t i;
 
 	for(i = 0; i < len; i++)
@@ -52,16 +54,20 @@ void decrypt(char *str, int shift, size_t len)
 
 void print_usage()
 {
-
+	printf("./cscrypt [OPTION] -s [STRING]\n\n");
+	printf("\t-d\tdecrypt string\n");
+	printf("\t-e\tencrypt string\n");
+	printf("\t-n\tnumber of shifts\n");
+	printf("\t-s\tstring to encrypt/decrypt\n\n");
 }
 
 int main(int argc, char **argv)
 {
-	int copts, n_shift, option = 0;
+	int copts, n_shift = 0, option = 1;
 	char *str;
 	size_t str_len;
 
-	while((copts = getopt(argc, argv, "den:s:")) != -1)
+	while((copts = getopt(argc, argv, "dehn:s:")) != -1)
 	{
 		switch(copts)
 		{
@@ -71,18 +77,43 @@ int main(int argc, char **argv)
 		case 'e':
 			option = 1;
 			break;
+		case 'h':
+			print_usage();
+			exit(EXIT_FAILURE);
+			break;
 		case 'n':
 			n_shift = atoi(optarg);
+
+			if(n_shift < 0 || n_shift > 25)
+			{
+				printf("Shifting value must be between 0 and 25.\n");
+				exit(EXIT_FAILURE);
+			}
+
 			break;
 		case 's':
 			str = optarg;
 			str_len = strlen(str);
+
+			if(str_len == 0)
+			{
+				printf("String must be longer than 0 characters.\n");
+				exit(EXIT_FAILURE);
+			}
+
 			break;
 		default:
 			print_usage();
 			exit(EXIT_FAILURE);
 		}
 	}
+
+	if(n_shift <= 0 || n_shift > 25)
+	{
+		printf("Shifting value must be between 0 and 25.\n");
+		exit(EXIT_FAILURE);
+	}
+
 
 	if(option)
 	{
